@@ -190,3 +190,6 @@ could connect a supported p-code subset to a stronger ISA reference. That is a
 separate claim from the contracts already checked here.
 
 Dependency attribution and reference links: [THIRD_PARTY.md](THIRD_PARTY.md).
+
+# AI Disclosure
+This code is heavily AI produced

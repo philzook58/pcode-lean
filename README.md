@@ -1,5 +1,7 @@
 # pcode-lean
 
+[Checkpoint status and next task](STATUS.md) · Git tag: `checkpoint-x86-contracts`.
+
 Lift a small x86-64 code region through Trail of Bits' standalone SLEIGH C++ library,
 emit ordinary executable Lean, and prove contracts with Lean's `vcgen` framework.
 
@@ -10,7 +12,8 @@ instruction bytes → raw SLEIGH p-code → Lean BitVec code → handwritten con
 
 This is a fresh prototype. It does not depend on `lean-pcode`, `lean-sleigh`, ASMC,
 CBMC, GOTO, or Mathlib. The Lean library depends only on Lean/Std. The C++ tool
-links `sleigh::sla`; only the x86-64 language specification is built for its target.
+links `sleigh::sla`; its target builds x86-64 and experimental RV32 specifications.
+The verified examples and native validation suite cover x86-64.
 
 ## First examples
 

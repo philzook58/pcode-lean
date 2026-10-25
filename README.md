@@ -68,6 +68,11 @@ as successful termination.
 
 ## Build and check
 
+[GitHub Actions](https://github.com/philzook58/pcode-lean/actions/workflows/ci.yml)
+runs the Lean proofs and the full native integration suite on x86-64 Ubuntu for
+pushes and pull requests. It uses the pinned toolchain and fetches the CMake
+dependencies afresh, without sibling checkout paths or cached native binaries.
+
 Requires Lean/Lake **4.35.0**, C++17, CMake 3.24+, Ninja, zlib development headers,
 and Git. Example regeneration and tests additionally use Python 3, a C compiler,
 and GNU binutils (`objcopy`, `readelf`). Native validation requires x86-64 Linux

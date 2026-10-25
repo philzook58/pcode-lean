@@ -1,0 +1,47 @@
+name: Build and check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      LEAN_NUM_THREADS: 2
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Install native build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            build-essential cmake ninja-build zlib1g-dev python3 binutils git
+
+      - name: Install Lean and check proofs
+        uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6 # v1
+        with:
+          auto-config: false
+          build: true
+          use-mathlib-cache: false
+
+      - name: Configure and build the lifter
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --target pcode-lean --parallel 2
+
+      # Checks fixture regeneration without rewriting, axiom audits, rejection cases,
+      # and all native/model comparisons, including the deliberate AF discrepancy.
+      - name: Run integration checks
+        run: ctest --test-dir build --verbose --output-on-failure --no-tests=error

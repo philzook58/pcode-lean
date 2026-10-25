@@ -86,7 +86,7 @@ lake build
 ctest --test-dir build --output-on-failure
 ```
 
-CMake pins SLEIGH at `feddce193fe480ce868d7ddd38ce03f38d60ac50`, whose stable
+CMake pins SLEIGH at `bfe2771eb304c2b4f01c2fa61f5342be54a91906`, whose stable
 dependency is Ghidra **12.1.4** plus the wrapper's patches. SLEIGH's source build
 downloads Ghidra; building one language does not make that download small.
 To reuse matching existing source downloads, pass

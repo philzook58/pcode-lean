@@ -1,7 +1,7 @@
 # Dependencies and references
 
 * [Trail of Bits / lifting-bits SLEIGH](https://github.com/lifting-bits/sleigh),
-  revision `feddce193fe480ce868d7ddd38ce03f38d60ac50`: standalone CMake packaging
+  revision `bfe2771eb304c2b4f01c2fa61f5342be54a91906`: standalone CMake packaging
   and C++ API. Its upstream license and notices remain in fetched source.
 * [NSA Ghidra](https://github.com/NationalSecurityAgency/ghidra),
   `Ghidra_12.1.4_build` with SLEIGH's stable patches: decoder and x86 language

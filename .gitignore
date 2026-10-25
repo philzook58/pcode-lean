@@ -1,0 +1,5 @@
+# Local build outputs and Python caches.
+/.lake/
+/build/
+__pycache__/
+*.py[cod]

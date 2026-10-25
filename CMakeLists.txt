@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.24)
+project(pcode-lean LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+include(FetchContent)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+set(PCODE_SLEIGH_REV "feddce193fe480ce868d7ddd38ce03f38d60ac50" CACHE STRING "SLEIGH revision")
+set(sleigh_BUILD_TOOLS ON CACHE BOOL "" FORCE)
+set(sleigh_BUILD_SLEIGHSPECS ON CACHE BOOL "" FORCE)
+set(sleigh_BUILD_SUPPORT OFF CACHE BOOL "" FORCE)
+set(sleigh_BUILD_EXTRATOOLS OFF CACHE BOOL "" FORCE)
+set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(sleigh URL "https://github.com/lifting-bits/sleigh/archive/${PCODE_SLEIGH_REV}.tar.gz")
+FetchContent_MakeAvailable(sleigh)
+add_executable(pcode-lean src/main.cpp)
+target_link_libraries(pcode-lean PRIVATE sleigh::sla)
+target_compile_options(pcode-lean PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_definitions(pcode-lean PRIVATE
+  PCODE_SPEC_DIR="${sleigh_BINARY_DIR}/specfiles/Ghidra/Processors/x86/data/languages"
+  PCODE_RISCV_DIR="${sleigh_BINARY_DIR}/specfiles/Ghidra/Processors/RISCV/data/languages"
+  PCODE_SLEIGH_REV="${PCODE_SLEIGH_REV}")
+add_dependencies(pcode-lean sleigh_spec_x86-64 sleigh_spec_riscv_ilp32d)
+enable_testing()
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_test(NAME integration COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/check.py
+  --lifter $<TARGET_FILE:pcode-lean>)

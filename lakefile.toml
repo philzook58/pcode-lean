@@ -1,0 +1,13 @@
+name = "pcode-lean"
+version = "0.1.0"
+defaultTargets = ["PcodeLean", "Examples", "pcode-run"]
+
+[[lean_lib]]
+name = "PcodeLean"
+
+[[lean_lib]]
+name = "Examples"
+
+[[lean_exe]]
+name = "pcode-run"
+root = "Main"
